@@ -1,6 +1,6 @@
-const { expect } = require('chai')
-const Node = require('../lib/Node')
-const LinkedList = require('../lib/LinkedList')
+const { expect } = require('chai');
+const Node = require('../lib/Node');
+const LinkedList = require('../lib/LinkedList');
 
 describe('LINKED LIST', () => {
   let list;
@@ -269,7 +269,7 @@ describe('LINKED LIST', () => {
     });
   });
 
-  describe.skip('INCLUDES', () => {
+  describe('INCLUDES', () => {
     beforeEach(() => {
       list.push('The');
       list.push('rain');
@@ -278,15 +278,15 @@ describe('LINKED LIST', () => {
     });
 
     it('should return true if node is in list', () => {
-      expect(list.include("rain")).to.eq(true);
+      expect(list.includes("rain")).to.eq(true);
     });
 
     it('should return false if node is not in list', () => {
-      expect(list.include("nope")).to.eq(false);
+      expect(list.includes("nope")).to.eq(false);
     });
   });
 
-  describe.skip('INDEX', () => {
+  describe('INDEX', () => {
     beforeEach(() => {
       list.push('oh');
       list.push('hello');
@@ -315,7 +315,7 @@ describe('LINKED LIST', () => {
     });
   });
 
-  describe.skip('INSERT AFTER', () => {
+  describe('INSERT AFTER', () => {
     beforeEach(() => {
       list.push('dark');
       list.push('stormy');
@@ -330,7 +330,7 @@ describe('LINKED LIST', () => {
     });
   });
 
-  describe.skip('DISTANCE', () => {
+  describe('DISTANCE', () => {
     beforeEach(() => {
       list.push("hello")
       list.push("pizza")

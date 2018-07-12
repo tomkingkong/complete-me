@@ -20,12 +20,4 @@ describe('NODE', () => {
   it('should take data and assign it to data prop', () => {
     expect(node.data).to.equal('pizza');
   })
-
-  it.skip('should be able to take in two next properties', () => {
-    
-  });
-
-  it.skip('should be able to take in multiple next properties', () => {
-
-  });
 })
