@@ -16,7 +16,7 @@ describe('TRIE', () => {
   it('should be able to add a word', () => {
     prefixTrie.insert('hello');
 
-    expect(prefixTrie.hello).to.eq('hello');
+    expect(prefixTrie.hello.data).to.eq('hello');
     expect(prefixTrie.wordCount).to.eq(1);
   });
 
@@ -26,7 +26,9 @@ describe('TRIE', () => {
     prefixTrie.insert('goodbye');
 
     expect(prefixTrie.wordCount).to.eq(3);
-    expect(prefixTrie.goodbye).to.eq('goodbye');    
+    expect(prefixTrie.goodbye.data).to.eq('goodbye');    
+    // console.log(JSON.stringify(prefixTrie, null, 4))
+    prefixTrie.breakDown('hello');
   });
 
 });
