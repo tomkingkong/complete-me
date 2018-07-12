@@ -9,8 +9,8 @@ describe('TRIE', () => {
     trie = new Trie();
   });
 
-  it('should start with zero elements', () => {
-    expect(trie.length).to.eq(0);
+  it('should start with zero words', () => {
+    expect(trie.wordCount).to.eq(0);
   });
 
 });
