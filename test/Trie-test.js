@@ -20,7 +20,7 @@ describe('TRIE', () => {
       prefixTrie.insert('hello');
   
       expect(prefixTrie.wordCount).to.eq(1);
-      console.log(JSON.stringify(prefixTrie, null, 4))
+      // console.log(JSON.stringify(prefixTrie, null, 4))
     });
   
     it('should keep track of words added', () => {
@@ -35,28 +35,33 @@ describe('TRIE', () => {
     it('should store first letter in word as child of root', () => {
       prefixTrie.insert('world');
 
-      expect(prefixTrie.w.data).to.eq('w');
+      // console.log(JSON.stringify(prefixTrie, null, 4))
+      expect(prefixTrie.root.w.data).to.deep.eq("w");
     });
 
-    it.skip('should store next letters as children of the previous child', () => {
+    it('should store next letters as children of the previous child', () => {
       prefixTrie.insert('world');
-
-      expect(prefixTrie.w.data).to.eq('w');
-      expect(prefixTrie.w.o.data).to.eq('o');
-      expect(prefixTrie.w.o.r.data).to.eq('r');
-      expect(prefixTrie.w.o.r.l.data).to.eq('l');
-      expect(prefixTrie.w.o.r.l.d.data).to.eq('d');
+      prefixTrie.insert('words');
+      prefixTrie.insert('hello');
       
-      expect(prefixTrie.wordCount).to.eq(1);
+      // console.log(JSON.stringify(prefixTrie, null, 4))
+
+      expect(prefixTrie.root.w.data).to.eq('w');
+      expect(prefixTrie.root.w.o.data).to.eq('o');
+      expect(prefixTrie.root.w.o.r.data).to.eq('r');
+      expect(prefixTrie.root.w.o.r.l.data).to.eq('l');
+      expect(prefixTrie.root.w.o.r.l.d.data).to.eq('d');
+      
+      expect(prefixTrie.wordCount).to.eq(3);
     });
     
-    it.skip('shouldn\'t make a new child if one exists', () => {
+    it('shouldn\'t make a new child if one exists', () => {
       prefixTrie.insert('whoa');
       
       prefixTrie.insert('world');
       
-      expect(prefixTrie.w.o.r.l.d.data).to.eq('d');
-      expect(prefixTrie.w.h.o.a.data).to.eq('a');
+      expect(prefixTrie.root.w.o.r.l.d.data).to.eq('d');
+      expect(prefixTrie.root.w.h.o.a.data).to.eq('a');
     });
   })
 
