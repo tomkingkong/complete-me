@@ -51,7 +51,6 @@ describe('LINKED LIST', () => {
     })
 
     it('should remove items from the front of list / head', () => {
-
       list.unshift('duck');
       list.unshift('goose');
       expect(list.head.data).to.equal('goose');
