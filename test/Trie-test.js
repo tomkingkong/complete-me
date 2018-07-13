@@ -22,7 +22,7 @@ describe('TRIE', () => {
       expect(prefixTrie.wordCount).to.eq(1);
     });
   
-    it.skip('should keep track of words added', () => {
+    it('should keep track of words added', () => {
       prefixTrie.insert('hello');
       prefixTrie.insert('world');
       prefixTrie.insert('goodbye');
@@ -31,13 +31,13 @@ describe('TRIE', () => {
       // console.log(JSON.stringify(prefixTrie, null, 4))
     });
   
-    it.skip('should store first letter in word as child of root', () => {
+    it('should store first letter in word as child of root', () => {
       prefixTrie.insert('world');
 
       expect(prefixTrie.w.data).to.eq('w');
     });
 
-    it.skip('should store next letters as children of the previous child', () => {
+    it('should store next letters as children of the previous child', () => {
       prefixTrie.insert('world');
 
       expect(prefixTrie.w.data).to.eq('w');
