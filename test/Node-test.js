@@ -13,6 +13,14 @@ describe('NODE', () => {
     expect(node).to.exist;
   })
 
+  it('should know if it is the end of a word, and be false by default', () => {
+    expect(node.endOfWord).to.eq(false)
+  })
+
+  it('should know its parent, default of null', () => {
+    expect(node.parentIs).to.eq(null)
+  })
+
   // it('should default next to null', () => {
   //   expect(node.next).to.equal(null);
   // })

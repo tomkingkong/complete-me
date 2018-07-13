@@ -20,13 +20,14 @@ describe('TRIE', () => {
       prefixTrie.insert('hello');
   
       expect(prefixTrie.wordCount).to.eq(1);
+      console.log(JSON.stringify(prefixTrie, null, 4))
     });
   
     it('should keep track of words added', () => {
       prefixTrie.insert('hello');
       prefixTrie.insert('world');
       prefixTrie.insert('goodbye');
-  
+      
       expect(prefixTrie.wordCount).to.eq(3);   
       // console.log(JSON.stringify(prefixTrie, null, 4))
     });
