@@ -37,7 +37,7 @@ describe('TRIE', () => {
       expect(prefixTrie.w.data).to.eq('w');
     });
 
-    it('should store next letters as children of the previous child', () => {
+    it.skip('should store next letters as children of the previous child', () => {
       prefixTrie.insert('world');
 
       expect(prefixTrie.w.data).to.eq('w');
@@ -45,41 +45,48 @@ describe('TRIE', () => {
       expect(prefixTrie.w.o.r.data).to.eq('r');
       expect(prefixTrie.w.o.r.l.data).to.eq('l');
       expect(prefixTrie.w.o.r.l.d.data).to.eq('d');
-
+      
       expect(prefixTrie.wordCount).to.eq(1);
     });
-
+    
     it.skip('shouldn\'t make a new child if one exists', () => {
       prefixTrie.insert('whoa');
-
-
+      
       prefixTrie.insert('world');
-
+      
       expect(prefixTrie.w.o.r.l.d.data).to.eq('d');
       expect(prefixTrie.w.h.o.a.data).to.eq('a');
     });
+  })
 
-    describe.skip('SUGGEST', () => {
-      it('should suggest a word based on fragments of words', () => {
-        prefixTrie.suggest('hel');
-        
-        //suggests 'hello'
-      });
-    });
+  describe('COUNT', () => {
+    it('should return the current word count', () => {
+      let number = prefixTrie.count();
 
-    describe.skip('POPULATE', () => {
-      it('should insert a dictionaries worth of words at once', () => {
-        prefixTrie.populate(...words);
-        //expect to see a ton of words..
-      });
-    });
-
-    describe.skip('REMOVE WORD', () => {
-      it('should remove a word from being suggested', () => {
-        prefixTrie.removeWord(word);
-
-        //word doesnt show up on suggestion
-      });
+      expect(number).to.eq(0);
     });
   })
+
+  describe.skip('SUGGEST', () => {
+    it('should suggest a word based on fragments of words', () => {
+      prefixTrie.suggest('hel');
+      
+      //suggests 'hello'
+    });
+  });
+
+  describe.skip('POPULATE', () => {
+    it('should insert a dictionaries worth of words at once', () => {
+      prefixTrie.populate(...words);
+      //expect to see a ton of words..
+    });
+  });
+
+  describe.skip('REMOVE WORD', () => {
+    it('should remove a word from being suggested', () => {
+      prefixTrie.removeWord(word);
+
+      //word doesnt show up on suggestion
+    });
+  });
 });
