@@ -41,8 +41,6 @@ describe('TRIE', () => {
 
     it('should store next letters as children of the previous child', () => {
       prefixTrie.insert('world');
-      prefixTrie.insert('words');
-      prefixTrie.insert('hello');
       
       // console.log(JSON.stringify(prefixTrie, null, 4))
 
@@ -52,7 +50,7 @@ describe('TRIE', () => {
       expect(prefixTrie.root.w.o.r.l.data).to.eq('l');
       expect(prefixTrie.root.w.o.r.l.d.data).to.eq('d');
       
-      expect(prefixTrie.wordCount).to.eq(3);
+      expect(prefixTrie.wordCount).to.eq(1);
     });
     
     it('shouldn\'t make a new child if one exists', () => {
@@ -63,6 +61,20 @@ describe('TRIE', () => {
       expect(prefixTrie.root.w.o.r.l.d.data).to.eq('d');
       expect(prefixTrie.root.w.h.o.a.data).to.eq('a');
     });
+
+    it('should\'t count duplicate words', () => {
+      prefixTrie.insert('whoa');
+      
+      expect(prefixTrie.wordCount).to.eq(1);
+      
+      prefixTrie.insert('world');
+
+      expect(prefixTrie.wordCount).to.eq(2);
+
+      prefixTrie.insert('world');
+
+      expect(prefixTrie.wordCount).to.eq(2);
+    });
   })
 
   describe('COUNT', () => {
@@ -70,6 +82,13 @@ describe('TRIE', () => {
       let number = prefixTrie.count();
 
       expect(number).to.eq(0);
+      
+      prefixTrie.insert('world');
+
+      number = prefixTrie.count();
+
+      expect(number).to.eq(1);
+
     });
   })
 
