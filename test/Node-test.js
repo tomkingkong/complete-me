@@ -17,11 +17,7 @@ describe('NODE', () => {
     expect(node.endOfWord).to.eq(false)
   })
 
-  // it('should default next to null', () => {
-  //   expect(node.next).to.equal(null);
-  // })
-
-  // it('should take data and assign it to data prop', () => {
-  //   expect(node.data).to.equal('pizza');
-  // })
+  it('should have an empty array of children by default', () => {
+    expect(node.children.length).to.equal(0);
+  })
 })

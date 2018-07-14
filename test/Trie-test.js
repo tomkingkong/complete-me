@@ -101,10 +101,11 @@ describe('TRIE', () => {
       expect(autoFill).to.eq(null);
     });
 
-    it.skip('should find a word starting from the first letter', () => {
+    it('should find a word starting from the first letter', () => {
       prefixTrie.insert('hello');
+      prefixTrie.insert('help');
 
-      let autoFill = prefixTrie.suggest('h');
+      let autoFill = prefixTrie.suggest('he');
 
       expect(autoFill).to.eq('hello');
     });
@@ -120,7 +121,7 @@ describe('TRIE', () => {
   });
 
   describe.skip('POPULATE', () => {
-    it('should insert a dictionaries worth of words at once', () => {
+    it('should insert a dictionary\'s worth of words at once', () => {
       prefixTrie.populate(...words);
       //expect to see a ton of words..
     });
