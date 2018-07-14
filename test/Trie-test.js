@@ -102,7 +102,7 @@ describe('TRIE', () => {
       // console.log(JSON.stringify(prefixTrie, null, 4))
 
       let autoFill = prefixTrie.getSuggestions('hx');
-      console.log(autoFill)
+
       expect(autoFill).to.deep.eq([]);
     });
 
