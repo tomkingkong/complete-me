@@ -17,10 +17,6 @@ describe('NODE', () => {
     expect(node.endOfWord).to.eq(false)
   })
 
-  it('should know its parent, default of null', () => {
-    expect(node.parentIs).to.eq(null)
-  })
-
   // it('should default next to null', () => {
   //   expect(node.next).to.equal(null);
   // })

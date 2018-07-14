@@ -92,11 +92,30 @@ describe('TRIE', () => {
     });
   })
 
-  describe.skip('SUGGEST', () => {
-    it('should suggest a word based on fragments of words', () => {
-      prefixTrie.suggest('hel');
+  describe('SUGGEST', () => {
+    it('should return null if input doesn\'t match', () => {
+      prefixTrie.insert('hello');
+
+      let autoFill = prefixTrie.suggest('hx');
+
+      expect(autoFill).to.eq(null);
+    });
+
+    it.skip('should find a word starting from the first letter', () => {
+      prefixTrie.insert('hello');
+
+      let autoFill = prefixTrie.suggest('h');
+
+      expect(autoFill).to.eq('hello');
+    });
+
+    it.skip('should suggest a word based on fragments of words', () => {
+      prefixTrie.insert('hello');
+      prefixTrie.insert('world');
+
+      let autoFill = prefixTrie.suggest('hel');
       
-      //suggests 'hello'
+      expect(autoFill).to.eq('hello');
     });
   });
 
