@@ -36,31 +36,34 @@ describe('TRIE', () => {
       prefixTrie.insert('world');
 
       // console.log(JSON.stringify(prefixTrie, null, 4))
-      expect(prefixTrie.root.children.w.data).to.eq("w");
+      let children = Object.keys(prefixTrie.root.children);
+      expect(children).to.deep.eq(['w']);
+
     });
 
     it('should store next letters as children of the previous child', () => {
-      prefixTrie.insert('world');
+      prefixTrie.insert('will');
       
       // console.log(JSON.stringify(prefixTrie, null, 4))
+      let childOfRoot = Object.keys(prefixTrie.root.children);
 
-      expect(prefixTrie.root.children.w.data).to.eq('w');
-      expect(prefixTrie.root.children.w.children.o.data).to.eq('o');
-      expect(prefixTrie.root.children.w.children.o.children.r.data).to.eq('r');
-      expect(prefixTrie.root.children.w.children.o.children.r.children.l.data).to.eq('l');
-      expect(prefixTrie.root.children.w.children.o.children.r.children.l.children.d.data).to.eq('d');
-      
+      expect(childOfRoot).to.deep.eq(['w']);
+
       expect(prefixTrie.wordCount).to.eq(1);
     });
     
     it('shouldn\'t make a new child if one exists', () => {
       prefixTrie.insert('whoa');
-      
       prefixTrie.insert('world');
+      prefixTrie.insert('what');
+
       // console.log(JSON.stringify(prefixTrie, null, 4))
-      
-      expect(prefixTrie.root.children.w.children.o.children.r.data).to.eq('r');
-      expect(prefixTrie.root.children.w.children.h.children.o.data).to.eq('o');
+      let numOfRootChildren = Object.keys(prefixTrie.root.children).length;
+      let numOfWChildren = Object.keys(prefixTrie.root.children.w.children).length;
+
+      expect(numOfRootChildren).to.eq(1);
+      expect(numOfWChildren).to.eq(2);
+   
     });
 
     it('should\'t count duplicate words', () => {
@@ -98,8 +101,8 @@ describe('TRIE', () => {
       prefixTrie.insert('hello');
       // console.log(JSON.stringify(prefixTrie, null, 4))
 
-      let autoFill = prefixTrie.suggest('hx');
-
+      let autoFill = prefixTrie.getSuggestions('hx');
+      console.log(autoFill)
       expect(autoFill).to.deep.eq([]);
     });
 
@@ -116,14 +119,18 @@ describe('TRIE', () => {
 
     });
 
-    it.skip('should suggest a word based on fragments of words', () => {
+    it('should suggest a word based on fragments of words', () => {
       prefixTrie.insert('hello');
       prefixTrie.insert('happy');
       prefixTrie.insert('world');
 
-      let autoFill = prefixTrie.suggest('hel');
-      
+      let autoFill = prefixTrie.getSuggestions('hel', prefixTrie.root);
+      // console.log(autoFill)
       expect(autoFill).to.deep.eq(['hello']);
+
+      autoFill = prefixTrie.getSuggestions('h', prefixTrie.root);
+      // console.log(autoFill)
+      expect(autoFill).to.deep.eq(['hello', 'happy']);
     });
   });
 
