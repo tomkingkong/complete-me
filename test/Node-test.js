@@ -1,5 +1,4 @@
 const { expect } = require('chai')
-const { chai } = expect;
 const Node = require('../lib/Node')
 
 describe('NODE', () => {
@@ -17,7 +16,7 @@ describe('NODE', () => {
     expect(node.endOfWord).to.eq(false)
   })
 
-  it('should have an empty array of children by default', () => {
-    expect(node.children.length).to.equal(0);
+  it('should have an empty object of children by default', () => {
+    expect(Object.keys(node.children).length).to.equal(0);
   })
 })
