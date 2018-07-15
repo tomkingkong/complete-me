@@ -164,11 +164,31 @@ describe('TRIE', () => {
     });
   });
 
-  describe.skip('REMOVE WORD', () => {
+  describe('REMOVE WORD', () => {
     it('should remove a word from being suggested', () => {
-      prefixTrie.removeWord(word);
+      prefixTrie.insert('anna');
+      prefixTrie.insert('ann');
+      
+      let autoFill = prefixTrie.getSuggestions('a', prefixTrie.root);
 
-      //word doesnt show up on suggestion
+      expect(autoFill).to.deep.eq(['ann', 'anna']);
+
+      prefixTrie.removeWord('ann');
+
+      autoFill = prefixTrie.getSuggestions('a', prefixTrie.root);
+
+      expect(autoFill).to.deep.eq(['anna']);
     });
+
+    it('should decrement wordCount', () => {
+      prefixTrie.insert('anna');
+      prefixTrie.insert('ann');
+
+      prefixTrie.removeWord('ann');
+
+      let wordCount = prefixTrie.count();
+
+      expect(wordCount).to.eq(1);
+    })
   });
 });
