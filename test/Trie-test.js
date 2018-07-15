@@ -1,6 +1,8 @@
 const { expect } = require('chai');
 const fs = require('fs')
 const Trie = require('../lib/Trie');
+const text = "/usr/share/dict/words";
+const dictionary = fs.readFileSync(text).toString().trim().split('\n');
 
 require('locus');
 
@@ -149,13 +151,31 @@ describe('TRIE', () => {
       expect(autoFill).to.deep.eq(['ann', 'anna', 'annabelle']);
       
     });
+
+    it('should return suggestions from a large set of words', () => {
+      prefixTrie.populate(dictionary);
+
+      let autoFill = prefixTrie.getSuggestions('wiz', prefixTrie.root);
+
+      expect(autoFill).to.deep.eq(
+        [ 'wizard',
+      'wizardess',
+      'wizardism',
+      'wizardlike',
+      'wizardly',
+      'wizardry',
+      'wizardship',
+      'wizen',
+      'wizened',
+      'wizenedness',
+      'wizier',
+      'wizzen' ]
+    )
+    })
   });
 
   describe.skip('POPULATE', () => {
     it('should insert a dictionary\'s worth of words at once', () => {
-      const text = "/usr/share/dict/words";
-      const dictionary = fs.readFileSync(text).toString().trim().split('\n');
-
       prefixTrie.populate(dictionary);
       
       let prefixTrieLength = prefixTrie.count();
