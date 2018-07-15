@@ -1,6 +1,7 @@
 const { expect } = require('chai');
-const Node = require('../lib/Node')
+const fs = require('fs')
 const Trie = require('../lib/Trie');
+
 require('locus');
 
 
@@ -132,12 +133,34 @@ describe('TRIE', () => {
       // console.log(autoFill)
       expect(autoFill).to.deep.eq(['hello', 'happy']);
     });
+
+    it('should suggest words nested in similar words', () => {
+      prefixTrie.insert('anna');
+      prefixTrie.insert('ann');
+
+      let autoFill = prefixTrie.getSuggestions('an', prefixTrie.root);
+      
+      expect(autoFill).to.deep.eq(['ann', 'anna']);
+
+      prefixTrie.insert('annabelle');
+
+      autoFill = prefixTrie.getSuggestions('an', prefixTrie.root);
+
+      expect(autoFill).to.deep.eq(['ann', 'anna', 'annabelle']);
+      
+    });
   });
 
   describe.skip('POPULATE', () => {
     it('should insert a dictionary\'s worth of words at once', () => {
-      prefixTrie.populate(...words);
-      //expect to see a ton of words..
+      const text = "/usr/share/dict/words";
+      const dictionary = fs.readFileSync(text).toString().trim().split('\n');
+
+      prefixTrie.populate(dictionary);
+      
+      let prefixTrieLength = prefixTrie.count();
+
+      expect(dictionary.length).to.eq(prefixTrieLength)
     });
   });
 
