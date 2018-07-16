@@ -183,7 +183,7 @@ describe('TRIE', () => {
     });
   });
 
-  describe('FIND WORD', () => {
+  describe('SEARCH', () => {
     it('should return true if a word exists', () => {
       const wizardry = [ 'wizard',
                          'wizardess',
@@ -194,7 +194,7 @@ describe('TRIE', () => {
 
       prefixTrie.populate(wizardry);
 
-      let found = prefixTrie.findWord('wizardly');
+      let found = prefixTrie.search('wizardly');
 
       expect(found).to.eq(true);
     });
@@ -208,7 +208,7 @@ describe('TRIE', () => {
 
       prefixTrie.populate(wizardry);
 
-      let found = prefixTrie.findWord('wizarbobloblaw');
+      let found = prefixTrie.search('wizarbobloblaw');
 
       expect(found).to.eq(false);
     });
@@ -222,14 +222,22 @@ describe('TRIE', () => {
 
       prefixTrie.populate(wizardry);
 
-      let found = prefixTrie.findWord('wiz');
+      let found = prefixTrie.search('wiz');
 
       expect(found).to.eq(false);
 
-      found = prefixTrie.findWord('wizard');
+      found = prefixTrie.search('wizard');
 
       expect(found).to.eq(true);
     });
+
+    it('should increase the word\'s popularity if exists', () => {
+
+    })
+
+    it('should create the word if it doesn\'t exist', () => {
+      
+    })
   });
 
   describe('REMOVE WORD', () => {

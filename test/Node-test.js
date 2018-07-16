@@ -19,4 +19,8 @@ describe('NODE', () => {
   it('should have an empty children object by default', () => {
     expect(Object.keys(node.children).length).to.equal(0);
   })
+
+  it('should have a default popularity of zero', () => {
+    expect(Object.keys(node.popularity)).to.equal(0);
+  })
 })
