@@ -1,11 +1,5 @@
 const { expect } = require('chai');
-const fs = require('fs')
 const Trie = require('../lib/Trie');
-const text = "/usr/share/dict/words";
-const dictionary = fs.readFileSync(text).toString().trim().split('\n');
-
-require('locus');
-
 
 describe('TRIE', () => {
   let prefixTrie;
@@ -18,12 +12,15 @@ describe('TRIE', () => {
     expect(prefixTrie.wordCount).to.eq(0);
   });
 
+  it('should start with empty children object as its root', () => {
+    expect(prefixTrie.root.children).to.deep.eq({});
+  });
+
   describe('INSERT', () => {
     it('should be able to add a word', () => {
       prefixTrie.insert('hello');
   
       expect(prefixTrie.wordCount).to.eq(1);
-      // console.log(JSON.stringify(prefixTrie, null, 4))
     });
   
     it('should keep count of words added', () => {
@@ -32,13 +29,11 @@ describe('TRIE', () => {
       prefixTrie.insert('goodbye');
       
       expect(prefixTrie.wordCount).to.eq(3);   
-      // console.log(JSON.stringify(prefixTrie, null, 4))
     });
   
     it('should store first letter in word as child of root', () => {
       prefixTrie.insert('world');
 
-      // console.log(JSON.stringify(prefixTrie, null, 4))
       let children = Object.keys(prefixTrie.root.children);
       expect(children).to.deep.eq(['w']);
 
@@ -47,7 +42,6 @@ describe('TRIE', () => {
     it('should store next letters as children of the previous child', () => {
       prefixTrie.insert('will');
       
-      // console.log(JSON.stringify(prefixTrie, null, 4))
       let childOfRoot = Object.keys(prefixTrie.root.children);
 
       expect(childOfRoot).to.deep.eq(['w']);
@@ -60,7 +54,6 @@ describe('TRIE', () => {
       prefixTrie.insert('world');
       prefixTrie.insert('what');
 
-      // console.log(JSON.stringify(prefixTrie, null, 4))
       let numOfRootChildren = Object.keys(prefixTrie.root.children).length;
       let numOfWChildren = Object.keys(prefixTrie.root.children.w.children).length;
 
@@ -69,7 +62,7 @@ describe('TRIE', () => {
    
     });
 
-    it('should\'t count duplicate words', () => {
+    it('shouldn\'t count duplicate words', () => {
       prefixTrie.insert('whoa');
       
       expect(prefixTrie.wordCount).to.eq(1);
@@ -100,9 +93,8 @@ describe('TRIE', () => {
   })
 
   describe('SUGGEST', () => {
-    it('should return empty array if input doesn\'t match', () => {
+    it('should return an empty array if input doesn\'t match', () => {
       prefixTrie.insert('hello');
-      // console.log(JSON.stringify(prefixTrie, null, 4))
 
       let autoFill = prefixTrie.getSuggestions('hx');
 
@@ -116,10 +108,8 @@ describe('TRIE', () => {
       prefixTrie.insert('heeding');
 
       let autoFill = prefixTrie.getSuggestions('he', prefixTrie.root);
-      // console.log(autoFill)
+
       expect(autoFill).to.deep.eq(['hello', 'help', 'heap', 'heeding']);
-
-
     });
 
     it('should suggest a word based on fragments of words', () => {
@@ -128,11 +118,11 @@ describe('TRIE', () => {
       prefixTrie.insert('world');
 
       let autoFill = prefixTrie.getSuggestions('hel', prefixTrie.root);
-      // console.log(autoFill)
+
       expect(autoFill).to.deep.eq(['hello']);
 
       autoFill = prefixTrie.getSuggestions('h', prefixTrie.root);
-      // console.log(autoFill)
+ 
       expect(autoFill).to.deep.eq(['hello', 'happy']);
     });
 
@@ -153,34 +143,92 @@ describe('TRIE', () => {
     });
 
     it('should return suggestions from a large set of words', () => {
+      const fs = require('fs');
+      const text = "/usr/share/dict/words";
+      const dictionary = fs.readFileSync(text).toString().trim().split('\n');
+      
       prefixTrie.populate(dictionary);
 
       let autoFill = prefixTrie.getSuggestions('wiz', prefixTrie.root);
 
       expect(autoFill).to.deep.eq(
         [ 'wizard',
-      'wizardess',
-      'wizardism',
-      'wizardlike',
-      'wizardly',
-      'wizardry',
-      'wizardship',
-      'wizen',
-      'wizened',
-      'wizenedness',
-      'wizier',
-      'wizzen' ]
-    )
+          'wizardess',
+          'wizardism',
+          'wizardlike',
+          'wizardly',
+          'wizardry',
+          'wizardship',
+          'wizen',
+          'wizened',
+          'wizenedness',
+          'wizier',
+          'wizzen' 
+        ]
+      )
     })
   });
 
-  describe.skip('POPULATE', () => {
+  describe('POPULATE', () => {
     it('should insert a dictionary\'s worth of words at once', () => {
+      const fs = require('fs');
+      const text = "/usr/share/dict/words";
+      const dictionary = fs.readFileSync(text).toString().trim().split('\n');
+     
       prefixTrie.populate(dictionary);
       
       let prefixTrieLength = prefixTrie.count();
 
-      expect(dictionary.length).to.eq(prefixTrieLength)
+      expect(dictionary.length).to.eq(prefixTrieLength);
+    });
+  });
+
+  describe('FIND WORD', () => {
+    it('should return true if a word exists', () => {
+      const wizardry = [ 'wizard',
+                         'wizardess',
+                         'wizardism',
+                         'wizardlike',
+                         'wizardly'
+                        ]
+
+      prefixTrie.populate(wizardry);
+
+      let found = prefixTrie.findWord('wizardly');
+
+      expect(found).to.eq(true);
+    });
+
+    it('should return false if a word does not match', () => {
+      const wizardry = [ 'wizard',
+                         'wizardess',
+                         'wizardism',
+                         'wizardlike'
+                        ]
+
+      prefixTrie.populate(wizardry);
+
+      let found = prefixTrie.findWord('wizarbobloblaw');
+
+      expect(found).to.eq(false);
+    });
+
+    it('should return false if the string doesn\'t count as a word', () => {
+      const wizardry = [ 'wizard',
+                         'wizardess',
+                         'wizardism',
+                         'wizardlike'
+                        ]
+
+      prefixTrie.populate(wizardry);
+
+      let found = prefixTrie.findWord('wiz');
+
+      expect(found).to.eq(false);
+
+      found = prefixTrie.findWord('wizard');
+
+      expect(found).to.eq(true);
     });
   });
 
@@ -209,6 +257,45 @@ describe('TRIE', () => {
       let wordCount = prefixTrie.count();
 
       expect(wordCount).to.eq(1);
-    })
+    });
+
+    it('should not decrement if deleted word doesn\'t exist', () => {
+      prefixTrie.insert('anna');
+      prefixTrie.insert('ann');
+
+      prefixTrie.removeWord('ann');
+
+      let wordCount = prefixTrie.count();
+
+      expect(wordCount).to.eq(1);
+
+      prefixTrie.removeWord('ann');
+
+      wordCount = prefixTrie.count();
+
+      expect(wordCount).to.eq(1);
+    });
+
+    it('should remove a node if has no children', () => {
+      prefixTrie.insert('anna');
+      prefixTrie.insert('ann');
+
+      prefixTrie.removeWord('anna');
+      let emptyChild = prefixTrie.root.children.a.children.n.children.n.children;
+     
+      expect(emptyChild).to.deep.eq({});
+    });
+
+    it('should not remove a node if it does have kids', () => {
+      prefixTrie.insert('ann');
+      prefixTrie.insert('anna');
+
+      prefixTrie.removeWord('ann');
+
+      let parentChild = prefixTrie.root.children.a.children.n.children.n.children;
+      let aChild = { 'a': { 'endOfWord': true, 'children': {} } };
+      
+      expect(parentChild).to.deep.eq(aChild);
+    });
   });
 });

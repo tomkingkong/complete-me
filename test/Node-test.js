@@ -16,7 +16,7 @@ describe('NODE', () => {
     expect(node.endOfWord).to.eq(false)
   })
 
-  it('should have an empty object of children by default', () => {
+  it('should have an empty children object by default', () => {
     expect(Object.keys(node.children).length).to.equal(0);
   })
 })

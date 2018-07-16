@@ -3,27 +3,19 @@ const path = require('path');
  module.exports = {
    devtool: 'inline-source-map',
    entry: {
-     main: "./lib/index.js"
-   },
-   output: {
-     path: __dirname,
-     filename: "dist/[name].bundle.js"
+     main: "./lib/index.js",
+     test: "mocha-loader!./test/index.js"
    },
    mode: 'development',
+   output: {
+     path: __dirname,
+     filename: "[name].bundle.js"
+     
+   },
    module: {
      rules: [
-       {
-         test: /\.css$/,
-         exclude: /node_modules/,
-         loader: "style-loader!css-loader"
-       },
-       {
-         test: /\.js$/,
-         loader: 'babel-loader',
-         query: {
-           presets: ['es2015']
-         }
-       }
+      { test: /\.css$/, use: [ 'style-loader', 'css-loader' ]},
+      { test: /\.js$/, exclude: /node_modules/, use: ['babel-loader'] }
      ]
    },
    resolve: {
