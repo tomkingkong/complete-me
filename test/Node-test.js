@@ -21,6 +21,6 @@ describe('NODE', () => {
   })
 
   it('should have a default popularity of zero', () => {
-    expect(Object.keys(node.popularity)).to.equal(0);
+    expect(node.popularity).to.equal(0);
   })
 })

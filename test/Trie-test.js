@@ -232,11 +232,26 @@ describe('TRIE', () => {
     });
 
     it('should increase the word\'s popularity if exists', () => {
+      prefixTrie.insert('ann');
 
+      let popular = prefixTrie.root.children.a.children.n.children.n.popularity;
+      
+      expect(popular).to.eq(0);
+
+      prefixTrie.search('ann');
+
+      popular = prefixTrie.root.children.a.children.n.children.n.popularity;
+      
+      expect(popular).to.eq(1);
     })
 
     it('should create the word if it doesn\'t exist', () => {
-      
+      prefixTrie.insert('ann');
+
+      prefixTrie.search('word');
+
+      let newWord = prefixTrie.root.children.w.children.o.children.r.children.d.endOfWord;
+      expect(newWord).to.eq(true);
     })
   });
 
@@ -301,7 +316,7 @@ describe('TRIE', () => {
       prefixTrie.removeWord('ann');
 
       let parentChild = prefixTrie.root.children.a.children.n.children.n.children;
-      let aChild = { 'a': { 'endOfWord': true, 'children': {} } };
+      let aChild = { 'a': { 'endOfWord': true, 'popularity': 0, 'children': {} } };
       
       expect(parentChild).to.deep.eq(aChild);
     });
