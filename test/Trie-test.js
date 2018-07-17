@@ -152,13 +152,13 @@ describe('TRIE', () => {
       let autoFill = prefixTrie.getSuggestions('wiz', prefixTrie.root);
 
       expect(autoFill).to.deep.eq(
-        [ 'wizard',
-          'wizardess',
+        [ 'wizardship',
+          'wizard',
           'wizardism',
           'wizardlike',
           'wizardly',
           'wizardry',
-          'wizardship',
+          'wizardess',
           'wizen',
           'wizened',
           'wizenedness',
@@ -166,6 +166,34 @@ describe('TRIE', () => {
           'wizzen' 
         ]
       )
+    })
+    it('should return suggestions in order of most popular', () => {
+      const fs = require('fs');
+      const text = "/usr/share/dict/words";
+      const dictionary = fs.readFileSync(text).toString().trim().split('\n');
+      
+      prefixTrie.populate(dictionary);
+
+      prefixTrie.search('wizardly');
+
+      let autoFill = prefixTrie.getSuggestions('wiz', prefixTrie.root);
+
+      expect(autoFill).to.deep.eq(
+        [ 'wizardly',
+          'wizardship',
+          'wizardism',
+          'wizardlike',
+          'wizard',
+          'wizardry',
+          'wizardess',
+          'wizen',
+          'wizened',
+          'wizenedness',
+          'wizier',
+          'wizzen' 
+        ]
+      )
+
     })
   });
 
