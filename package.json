@@ -1,7 +1,8 @@
 {
-  "name": "complete-me",
+  "name": "@tomkingkong/complete-me",
   "version": "1.0.0",
-  "description": "Complete Me",
+  "description": "Prefix Trie",
+  "main": "index.js",
   "directories": {
     "lib": "lib",
     "test": "test"
